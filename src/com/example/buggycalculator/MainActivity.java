@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
     @SuppressLint("NewApi")
 	public void bDot(View view) {
     	EditText tScreen = (EditText)findViewById(R.id.Screen);
-    	if (tScreen.getText().toString().isEmpty())
+    	if (tScreen.getText().toString().isEmpty() || tScreen.getText().toString().equals("0"))
     		putText("0.");
     	else if (!tScreen.getText().toString().contains("."))
     	{
