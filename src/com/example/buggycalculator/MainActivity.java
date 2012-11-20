@@ -1,11 +1,13 @@
 package com.example.buggycalculator;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
+@SuppressLint("NewApi")
 public class MainActivity extends Activity {
 	
 	private float currentNumber = 0;
@@ -38,8 +40,10 @@ public class MainActivity extends Activity {
     		clearScreen();
     		tScreen.append(s);
     	}
-    	else
-    		tScreen.append(s);
+    	else if (tScreen.getText().toString().equals("0"))
+    		tScreen.setText(s); 
+    	else if (!tScreen.getText().toString().equals("0"))
+    		tScreen.append(s); 
     }
     
     /** Called when the user clicks the 1 button */
@@ -81,15 +85,18 @@ public class MainActivity extends Activity {
     /** Called when the user clicks the 0 button */
     public void b0(View view) {
     	EditText tScreen = (EditText)findViewById(R.id.Screen);
-    	if (tScreen.getText().toString() != "")
+    	if (!tScreen.getText().toString().equals("0"))
     	{
     		putText("0");
     	}
     }
     /** Called when the user clicks the Dot button */
-    public void bDot(View view) {
+    @SuppressLint("NewApi")
+	public void bDot(View view) {
     	EditText tScreen = (EditText)findViewById(R.id.Screen);
-    	if (!tScreen.getText().toString().contains("."))
+    	if (tScreen.getText().toString().isEmpty())
+    		putText("0.");
+    	else if (!tScreen.getText().toString().contains("."))
     	{
     		putText(".");
     	}
@@ -146,8 +153,13 @@ public class MainActivity extends Activity {
     private void saveCurrentNumber()
     {
     	EditText tScreen = (EditText)findViewById(R.id.Screen);
-    	this.currentNumber = Float.parseFloat(tScreen.getText().toString());
-    	clearScreen();
+    	if (!tScreen.getText().toString().isEmpty())
+    	{
+    		this.currentNumber = Float.parseFloat(tScreen.getText().toString());
+    		clearScreen();
+    	}
+    	else 
+    		this.currentNumber = 0;
     }
     private void clearScreen()
     {
